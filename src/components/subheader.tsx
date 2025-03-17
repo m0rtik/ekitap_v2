@@ -113,7 +113,7 @@ export default function Subheader({ toggleMenu, isMenuOpen }: SubheaderProps) {
             ></li>
             {menuItems.map(({ title, href, badge }) => (
               <li key={href}>
-                <Link href={href} className={`h-14 max-lg:h-10 px-2 max-lg:px-0 flex items-center justify-center max-lg:justify-normal transition ${active === href ? "text-zinc-950" : "text-zinc-500 hover:text-blue-600"}`} aria-current={active === href ? "page" : undefined}>
+                <Link href={href} onClick={toggleMenu} className={`h-14 max-lg:h-10 px-2 max-lg:px-0 flex items-center justify-center max-lg:justify-normal transition ${active === href ? "text-zinc-950" : "text-zinc-500 hover:text-blue-600"}`} aria-current={active === href ? "page" : undefined}>
                   {title}
                   {badge && <span className="badge text-xs font-medium ml-2 text-zinc-950 h-5 px-1.5 rounded bg-zinc-200 flex items-center justify-center">{badge}</span>}
                 </Link>
