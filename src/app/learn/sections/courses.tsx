@@ -104,7 +104,7 @@ export default function Courses() {
 
         <Filter />
 
-        <div className="grid grid-cols-4 gap-6 py-2">
+        <div className="grid grid-cols-[repeat(auto-fill,_minmax(min(260px,100%),_1fr))] gap-6 py-2">
           {courses.map((course, index) => (
             <article key={course.id} className="bg-white border border-zinc-200 rounded-xl p-2 pb-4">
               <div className="flex flex-col space-y-4 h-full">

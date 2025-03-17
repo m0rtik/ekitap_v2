@@ -26,11 +26,11 @@ export default function ContinueLearning() {
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Продолжить обучение</h2>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-6">
           {courses.map((course) => (
             <div key={course.id} className="bg-white border border-zinc-200 rounded-xl p-2 pr-4">
-              <div className="flex gap-x-4">
-                <Link href="#" className="aspect-3/2 w-48 shrink-0 rounded-lg overflow-hidden relative">
+              <div className="flex gap-4 max-sm:flex-col">
+                <Link href="#" className="aspect-3/2 w-48 max-sm:w-full shrink-0 rounded-lg overflow-hidden relative">
                   <Image src={course.image} alt={course.title} layout="fill" objectFit="cover" />
                   <div className="absolute top-2 left-2">
                     <span className="flex items-center gap-x-1 bg-zinc-950/75 rounded text-xs text-zinc-50 font-medium h-5 px-1.5">
@@ -40,7 +40,7 @@ export default function ContinueLearning() {
                   </div>
                 </Link>
 
-                <div className="flex flex-col py-2 w-full">
+                <div className="flex flex-col py-2 w-full max-sm:px-2">
                   <div className="flex space-x-1 mb-1.5">
                     <span className="size-4.5 bg-sky-500 rounded flex items-center justify-center shrink-0 text-zinc-50 text-xs">
                       <i className="ri-bill-line"></i>
@@ -51,7 +51,7 @@ export default function ContinueLearning() {
                     {course.title}
                   </Link>
 
-                  <div className="flex gap-x-4 mt-auto">
+                  <div className="flex gap-x-4 mt-auto max-sm:mt-4">
                     <div className="flex flex-col space-y-1 w-full">
                       <div className="text-sm font-medium text-zinc-500">
                         Прогресс: <span className="text-zinc-950">{course.progress}%</span>
