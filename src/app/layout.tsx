@@ -63,7 +63,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <Footer />
 
-          <div className={`fixed inset-0 bg-black/50 transition duration-500 ${!isMenuOpen && "invisible opacity-0"}`}></div>
+          <div className={`hidden max-lg:block fixed inset-0 bg-black/50 transition duration-500 ${!isMenuOpen && "invisible opacity-0"}`}></div>
         </div>
       </body>
     </html>

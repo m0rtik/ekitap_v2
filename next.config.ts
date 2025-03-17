@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cdn.stepik.net", // Новый хост
       },
+      {
+        protocol: "https",
+        hostname: "optim.tildacdn.com", // Новый хост
+      },
     ],
   },
 };

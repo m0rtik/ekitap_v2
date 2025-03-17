@@ -9,14 +9,14 @@ const courses = [
     title: "Русский язык. Общественно-гуманитарное направление",
     grade: "10 класс",
     progress: 80,
-    image: "https://skillbox.kz/landing-assets/c4/7e/4b50fbee74e8d5be2ec2fceeeee8.webp",
+    image: "https://optim.tildacdn.com/stor3436-6466-4764-b739-313264386464/-/resize/720x/-/format/webp/60516211.png.webp",
   },
   {
     id: 2,
     title: "Профессия Художник компьютерной графики",
     grade: "Курс",
     progress: 30,
-    image: "https://skillbox.kz/landing-assets/55/f2/b1069e3743f27d501ca515b24ea6.webp",
+    image: "https://optim.tildacdn.com/stor3035-6165-4936-b262-623438376630/-/resize/720x/-/format/webp/81293602.png.webp",
   },
 ];
 
