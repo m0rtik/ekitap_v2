@@ -78,6 +78,8 @@ export default function Courses() {
     ]);
   }, []);
 
+  const colors = ["pink", "lime", "red", "gray", "sky", "fuchsia", "blue", "stone", "zinc", "purple", "rose", "indigo", "neutral", "emerald", "amber", "cyan", "yellow", "teal", "green", "orange", "slate", "violet"];
+
   useEffect(() => {
     progressRefs.current.forEach((el, index) => {
       if (!el || courses[index]?.progress === null) return;
@@ -106,7 +108,24 @@ export default function Courses() {
 
         <div className="grid grid-cols-[repeat(auto-fill,_minmax(min(260px,100%),_1fr))] gap-6 py-2">
           {courses.map((course, index) => (
-            <article key={course.id} className="bg-white border border-zinc-200 rounded-xl p-2 pb-4">
+            <article
+              key={course.id}
+              className={`bg-gradient-to-br from-${colors[index % colors.length]}-50 to-${colors[index % colors.length]}-25 border border-${colors[index % colors.length]}-200 rounded-xl p-2 pb-4`}
+              onMouseMove={(e) => {
+                const card = e.currentTarget;
+                const { left, top, width, height } = card.getBoundingClientRect();
+                const x = e.clientX - left;
+                const y = e.clientY - top;
+                const rotateY = (x / width - 0.5) * 20; // Наклон влево-вправо
+                const rotateX = -(y / height - 0.5) * 20; // Наклон вверх-вниз
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transition = "transform 0.3s ease-out";
+                e.currentTarget.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+              }}
+            >
               <div className="flex flex-col space-y-4 h-full">
                 <Link href="#" className="relative">
                   <div className="aspect-3/2 w-full overflow-hidden">
@@ -131,7 +150,7 @@ export default function Courses() {
                   {course.progress === null ? (
                     <>
                       <span>Не начато</span>
-                      <button className="cursor-pointer ml-auto text-sm h-9 px-2 flex items-center rounded-md border border-zinc-200 hover:text-blue-600 hover:bg-zinc-50">Начать обучение</button>
+                      <button className="bg-white cursor-pointer ml-auto text-sm h-9 px-2 flex items-center rounded-md border border-zinc-200 hover:text-blue-600 hover:bg-zinc-50">Начать обучение</button>
                     </>
                   ) : course.progress < 100 ? (
                     <>
@@ -153,7 +172,7 @@ export default function Courses() {
                         ></circle>
                       </svg>
                       <span className="text-zinc-950">{course.progress}%</span>
-                      <button className="cursor-pointer ml-auto text-sm h-9 px-2 flex items-center rounded-md border border-zinc-200 hover:text-blue-600 hover:bg-zinc-50">Продолжить</button>
+                      <button className="bg-white cursor-pointer ml-auto text-sm h-9 px-2 flex items-center rounded-md border border-zinc-200 hover:text-blue-600 hover:bg-zinc-50">Продолжить</button>
                     </>
                   ) : (
                     <>
