@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Head from "next/head";
 
 import "./globals.css";
@@ -12,23 +13,14 @@ import Subheader from "@/components/subheader";
 import Footer from "@/components/footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    const metaViewport = document.querySelector("meta[name='viewport']");
-    if (metaViewport) {
-      metaViewport.setAttribute("content", "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0");
-    } else {
-      const meta = document.createElement("meta");
-      meta.name = "viewport";
-      meta.content = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0";
-      document.head.appendChild(meta);
-    }
-  }, []);
+  const pathname = usePathname();
+  const isLessonPage = pathname.startsWith("/lesson"); // Проверяем, это ли страница уроков
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-  // Закрываем меню при клике вне его
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -52,18 +44,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </Head>
       <body className={`${isMenuOpen && "overflow-hidden"}`}>
         <div className="wrapper">
-          <Header toggleMenu={toggleMenu} />
+          {!isLessonPage && <Header toggleMenu={toggleMenu} />}
 
-          <main>
-            <div ref={menuRef}>
-              <Subheader toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
-            </div>
+          <main className={`flex-1 ${isLessonPage ? "min-h-screen bg-gray-50" : ""}`}>
+            {!isLessonPage && (
+              <div ref={menuRef}>
+                <Subheader toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+              </div>
+            )}
             {children}
           </main>
 
-          <Footer />
+          {!isLessonPage && <Footer />}
 
-          <div className={`hidden max-lg:block fixed inset-0 bg-black/50 transition duration-500 ${!isMenuOpen && "invisible opacity-0"}`}></div>
+          {!isLessonPage && <div className={`hidden max-lg:block fixed inset-0 bg-black/50 transition duration-500 ${!isMenuOpen && "invisible opacity-0"}`}></div>}
         </div>
       </body>
     </html>

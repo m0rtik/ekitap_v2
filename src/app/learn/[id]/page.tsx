@@ -14,10 +14,12 @@ export default function Learn() {
       title: "Step by Step Usability Principles",
       chapters: [
         {
+          id: 1,
           icon: "ri-archive-stack-line",
           text: "Introduction: Navigating User-Centric Waters - A Step-by-Step Guide to Usability Principles",
         },
         {
+          id: 2,
           icon: "ri-file-list-2-line",
           text: "Chapter 1: Clarity in Navigation",
         },
@@ -27,10 +29,12 @@ export default function Learn() {
       title: "Advanced UI/UX Techniques",
       chapters: [
         {
+          id: 3,
           icon: "ri-archive-stack-line",
           text: "Designing with Accessibility in Mind",
         },
         {
+          id: 4,
           icon: "ri-file-list-2-line",
           text: "Chapter 2: Microinteractions",
         },
@@ -40,10 +44,12 @@ export default function Learn() {
       title: "Interactive Prototyping Essentials",
       chapters: [
         {
+          id: 5,
           icon: "ri-archive-stack-line",
           text: "Building Clickable Prototypes for Usability Testing",
         },
         {
+          id: 6,
           icon: "ri-file-list-2-line",
           text: "Chapter 3: High-Fidelity vs Low-Fidelity Prototypes",
         },
@@ -180,10 +186,10 @@ export default function Learn() {
               </div>
 
               <div className="flex items-center flex-wrap gap-x-4 gap-y-2">
-                <button type="button" className="whitespace-nowrap flex items-center cursor-pointer h-9.5 px-4 rounded-lg border-2 border-indigo-700 shadow bg-indigo-600 text-white transition hover:brightness-125">
+                <button type="button" className="max-sm:w-full max-sm:justify-center whitespace-nowrap flex items-center cursor-pointer h-9.5 px-4 rounded-lg border-2 border-indigo-700 shadow bg-indigo-600 text-white transition hover:brightness-125">
                   Продолжить
                 </button>
-                <button type="button" className="whitespace-nowrap flex items-center cursor-pointer h-9.5 px-4 rounded-lg border-2 border-zinc-50 shadow bg-white transition hover:bg-zinc-50">
+                <button type="button" className="max-sm:w-full max-sm:justify-center whitespace-nowrap flex items-center cursor-pointer h-9.5 px-4 rounded-lg border-2 border-zinc-50 shadow bg-white transition hover:bg-zinc-50">
                   Добавить в закладки
                   <i className="ml-1 text-lg ri-bookmark-line"></i>
                 </button>
@@ -269,10 +275,10 @@ export default function Learn() {
                         <div className="overflow-hidden">
                           {item.chapters.map((chapter, idx) => (
                             <li key={idx}>
-                              <a href="#" className="flex items-baseline space-x-4 p-4 bg-white border-t border-zinc-200 transition hover:bg-zinc-50">
+                              <Link href="/lesson" className="flex items-baseline space-x-4 p-4 bg-white border-t border-zinc-200 transition hover:bg-zinc-50">
                                 <i className={`text-lg text-zinc-500 ${chapter.icon}`}></i>
                                 <span className="text-sm">{chapter.text}</span>
-                              </a>
+                              </Link>
                             </li>
                           ))}
                         </div>
