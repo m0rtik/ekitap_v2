@@ -127,7 +127,7 @@ export default function Courses() {
               }}
             >
               <div className="flex flex-col space-y-4 h-full">
-                <Link href="#" className="relative">
+                <Link href={`/learn/${course.id}`} className="relative">
                   <div className="aspect-3/2 w-full overflow-hidden">
                     <Image src={course.cover} alt={course.title} fill className="rounded-lg object-cover" />
                   </div>
@@ -141,7 +141,7 @@ export default function Courses() {
 
                 <div className="flex flex-col px-2 w-full">
                   <span className="text-zinc-500 text-sm font-medium">{course.grade}</span>
-                  <Link href="#" className="line-clamp-2 font-semibold text-sm transition hover:text-blue-600">
+                  <Link href={`/learn/${course.id}`} className="line-clamp-2 font-semibold text-sm transition hover:text-blue-600">
                     {course.title}
                   </Link>
                 </div>

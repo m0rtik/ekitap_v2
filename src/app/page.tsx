@@ -10,7 +10,7 @@ export default function Home() {
             <div className="text-zinc-500">С возвращением в Ekitap! Посмотри, какие занятия у тебя сегодня в расписании.</div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 max-sm:grid-cols-2 gap-4">
             <div className="border-2 border-zinc-200 rounded-md p-2 min-w-40">
               <div className="flex space-x-2">
                 <i className="text-xl text-yellow-400 ri-coins-line"></i>

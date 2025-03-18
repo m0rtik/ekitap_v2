@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation"; // Если Next.js 13+ (app router)
-
+import { usePathname } from "next/navigation";
 import Dropdown from "@/components/Dropdown";
 
 const languages = [
@@ -28,14 +27,9 @@ interface SubheaderProps {
 }
 
 export default function Subheader({ toggleMenu, isMenuOpen }: SubheaderProps) {
-  const pathname = usePathname(); // Получаем текущий путь
-  const [active, setActive] = useState(pathname);
+  const pathname = usePathname();
   const [isIndicatorReady, setIsIndicatorReady] = useState(false);
   const indicatorRef = useRef<HTMLLIElement>(null);
-
-  useEffect(() => {
-    setActive(pathname); // Обновляем active при смене маршрута
-  }, [pathname]);
 
   useEffect(() => {
     const updateIndicator = () => {
@@ -61,7 +55,7 @@ export default function Subheader({ toggleMenu, isMenuOpen }: SubheaderProps) {
     updateIndicator();
     window.addEventListener("resize", updateIndicator);
     return () => window.removeEventListener("resize", updateIndicator);
-  }, [active]);
+  }, [pathname]);
 
   return (
     <div className={`flex max-lg:flex-col items-center max-lg:items-start bg-zinc-100 max-lg:bg-white max-lg:border-r max-lg:border-zinc-200 max-lg:fixed max-lg:inset-0 max-lg:max-w-96 max-sm:max-w-full max-lg:z-50 max-lg:transition ${isMenuOpen ? "" : "max-lg:-translate-x-full"}`}>
@@ -74,27 +68,25 @@ export default function Subheader({ toggleMenu, isMenuOpen }: SubheaderProps) {
 
             <Dropdown
               renderDropdown={({ isOpen, setIsOpen }) => (
-                <>
-                  <div className="relative">
-                    <button type="button" onClick={() => setIsOpen(!isOpen)} className="cursor-pointer size-10 text-xl flex items-center justify-center shrink-0 rounded-full transition border border-transparent hover:border-zinc-200 active:bg-zinc-100 focus:border-zinc-300 relative">
-                      <i className="ri-earth-line"></i>
-                      <div className="absolute -top-1 -right-1.5 uppercase text-xs text-white bg-blue-400 px-1 pt-1 pb-0.5 rounded-md rounded-bl-none leading-none">RU</div>
-                    </button>
-                    {isOpen && (
-                      <div className="dropdown-menu dropdown-right absolute top-full mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50">
-                        <ul>
-                          {languages.map(({ code, label }) => (
-                            <li key={code}>
-                              <Link href={code} className="block px-5 text-center py-2 rounded-md transition hover:bg-blue-50 aria-[current=true]:bg-blue-50" aria-current={currentLang === code ? "true" : undefined}>
-                                {label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </>
+                <div className="relative">
+                  <button type="button" onClick={() => setIsOpen(!isOpen)} className="cursor-pointer size-10 text-xl flex items-center justify-center shrink-0 rounded-full transition border border-transparent hover:border-zinc-200 active:bg-zinc-100 focus:border-zinc-300 relative">
+                    <i className="ri-earth-line"></i>
+                    <div className="absolute -top-1 -right-1.5 uppercase text-xs text-white bg-blue-400 px-1 pt-1 pb-0.5 rounded-md rounded-bl-none leading-none">RU</div>
+                  </button>
+                  {isOpen && (
+                    <div className="dropdown-menu dropdown-right absolute top-full mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50">
+                      <ul>
+                        {languages.map(({ code, label }) => (
+                          <li key={code}>
+                            <Link href={code} className="block px-5 text-center py-2 rounded-md transition hover:bg-blue-50 aria-[current=true]:bg-blue-50" aria-current={currentLang === code ? "true" : undefined}>
+                              {label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               )}
             />
           </div>
@@ -111,14 +103,18 @@ export default function Subheader({ toggleMenu, isMenuOpen }: SubheaderProps) {
                 visibility: isIndicatorReady ? "visible" : "hidden",
               }}
             ></li>
-            {menuItems.map(({ title, href, badge }) => (
-              <li key={href}>
-                <Link href={href} onClick={toggleMenu} className={`h-14 max-lg:h-10 px-2 max-lg:px-0 flex items-center justify-center max-lg:justify-normal transition ${active === href ? "text-zinc-950" : "text-zinc-500 hover:text-blue-600"}`} aria-current={active === href ? "page" : undefined}>
-                  {title}
-                  {badge && <span className="badge text-xs font-medium ml-2 text-zinc-950 h-5 px-1.5 rounded bg-zinc-200 flex items-center justify-center">{badge}</span>}
-                </Link>
-              </li>
-            ))}
+            {menuItems.map(({ title, href, badge }) => {
+              const isActive = pathname === href || pathname.startsWith(`${href}/`);
+
+              return (
+                <li key={href}>
+                  <Link href={href} onClick={toggleMenu} className={`h-14 max-lg:h-10 px-2 max-lg:px-0 flex items-center justify-center max-lg:justify-normal transition ${isActive ? "text-zinc-950" : "text-zinc-500 hover:text-blue-600"}`} aria-current={isActive ? "page" : undefined}>
+                    {title}
+                    {badge && <span className="badge text-xs font-medium ml-2 text-zinc-950 h-5 px-1.5 rounded bg-zinc-200 flex items-center justify-center">{badge}</span>}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div className="hidden max-lg:block container border-t border-zinc-200">
