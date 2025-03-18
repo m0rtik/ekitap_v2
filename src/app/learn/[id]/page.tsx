@@ -9,8 +9,52 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Learn() {
+  const accordionItems = [
+    {
+      title: "Step by Step Usability Principles",
+      chapters: [
+        {
+          icon: "ri-archive-stack-line",
+          text: "Introduction: Navigating User-Centric Waters - A Step-by-Step Guide to Usability Principles",
+        },
+        {
+          icon: "ri-file-list-2-line",
+          text: "Chapter 1: Clarity in Navigation",
+        },
+      ],
+    },
+    {
+      title: "Advanced UI/UX Techniques",
+      chapters: [
+        {
+          icon: "ri-archive-stack-line",
+          text: "Designing with Accessibility in Mind",
+        },
+        {
+          icon: "ri-file-list-2-line",
+          text: "Chapter 2: Microinteractions",
+        },
+      ],
+    },
+    {
+      title: "Interactive Prototyping Essentials",
+      chapters: [
+        {
+          icon: "ri-archive-stack-line",
+          text: "Building Clickable Prototypes for Usability Testing",
+        },
+        {
+          icon: "ri-file-list-2-line",
+          text: "Chapter 3: High-Fidelity vs Low-Fidelity Prototypes",
+        },
+      ],
+    },
+  ];
+
   const params = useParams();
   const courseId = params?.id ? Number(params.id) : NaN;
+
+  const [openIndexes, setOpenIndexes] = useState(accordionItems.map((_, i) => i));
 
   if (Number.isNaN(courseId)) return <p>Ошибка: неверный ID курса</p>;
 
@@ -78,50 +122,6 @@ export default function Learn() {
   const course = courses.find((c) => c.id === courseId);
   if (!course) return notFound();
 
-  const accordionItems = [
-    {
-      title: "Step by Step Usability Principles",
-      chapters: [
-        {
-          icon: "ri-archive-stack-line",
-          text: "Introduction: Navigating User-Centric Waters - A Step-by-Step Guide to Usability Principles",
-        },
-        {
-          icon: "ri-file-list-2-line",
-          text: "Chapter 1: Clarity in Navigation",
-        },
-      ],
-    },
-    {
-      title: "Advanced UI/UX Techniques",
-      chapters: [
-        {
-          icon: "ri-archive-stack-line",
-          text: "Designing with Accessibility in Mind",
-        },
-        {
-          icon: "ri-file-list-2-line",
-          text: "Chapter 2: Microinteractions",
-        },
-      ],
-    },
-    {
-      title: "Interactive Prototyping Essentials",
-      chapters: [
-        {
-          icon: "ri-archive-stack-line",
-          text: "Building Clickable Prototypes for Usability Testing",
-        },
-        {
-          icon: "ri-file-list-2-line",
-          text: "Chapter 3: High-Fidelity vs Low-Fidelity Prototypes",
-        },
-      ],
-    },
-  ];
-
-  const [openIndexes, setOpenIndexes] = useState(accordionItems.map((_, i) => i));
-
   const toggleItem = (index: number) => {
     setOpenIndexes((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]));
   };
@@ -179,11 +179,11 @@ export default function Learn() {
                 </Link>
               </div>
 
-              <div className="flex items-center space-x-4">
-                <button type="button" className="flex items-center cursor-pointer h-9.5 px-4 rounded-lg border-2 border-indigo-700 shadow bg-indigo-600 text-white transition hover:brightness-125">
+              <div className="flex items-center flex-wrap gap-x-4 gap-y-2">
+                <button type="button" className="whitespace-nowrap flex items-center cursor-pointer h-9.5 px-4 rounded-lg border-2 border-indigo-700 shadow bg-indigo-600 text-white transition hover:brightness-125">
                   Продолжить
                 </button>
-                <button type="button" className="flex items-center cursor-pointer h-9.5 px-4 rounded-lg border-2 border-zinc-50 shadow bg-white transition hover:bg-zinc-50">
+                <button type="button" className="whitespace-nowrap flex items-center cursor-pointer h-9.5 px-4 rounded-lg border-2 border-zinc-50 shadow bg-white transition hover:bg-zinc-50">
                   Добавить в закладки
                   <i className="ml-1 text-lg ri-bookmark-line"></i>
                 </button>
@@ -259,7 +259,7 @@ export default function Learn() {
                       <button type="button" className="cursor-pointer outline-none bg-zinc-100 w-full p-4 flex items-center justify-between transition hover:bg-zinc-200/50" onClick={() => toggleItem(index)}>
                         <span className="font-medium text-left">{item.title}</span>
                         <div className="ml-auto flex items-center">
-                          <span className="text-sm font-medium whitespace-nowrap">{item.chapters.length} chapters</span>
+                          <span className="text-sm font-medium whitespace-nowrap max-sm:hidden">{item.chapters.length} chapters</span>
                           <span className="ml-3 w-10 h-5 flex items-center justify-center border-l border-zinc-200">
                             <i className={clsx("text-lg transition-transform duration-300 ease-in-out ri-arrow-down-s-line", { "rotate-180": isOpen })} />
                           </span>
