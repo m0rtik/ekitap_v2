@@ -82,12 +82,6 @@ export default function Lesson() {
                 </div>
               </div>
             </div>
-
-            {/* <div className="container py-6 h-full overflow-auto">
-              <div className="prose mx-auto prose-zinc">
-                <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-              </div>
-            </div> */}
             <div className="h-16 flex items-center shrink-0 bg-white border-t border-zinc-200 mt-auto">
               <div className="container">
                 <div className="flex items-center">

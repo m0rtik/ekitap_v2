@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
-
 
 @theme {
   --font-primary: "Poppins", sans-serif;
@@ -43,6 +42,43 @@
   .dropdown-menu::before {
     border-width: 0 7px 8px 7px;
     border-color: transparent transparent theme("colors.zinc.200") transparent;
+  }
+}
+
+@layer utilities {
+
+  /*-scroll-*/
+  /* width */
+  ::-webkit-scrollbar {
+    @apply w-2 rounded overflow-hidden;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-zinc-200;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-400;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-500 cursor-pointer;
+  }
+
+  /* Скрываем скроллбар, но оставляем прокрутку */
+  .hidden-scrollbar {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 11 */
+  }
+
+  /* Для Chrome, Safari и Edge */
+  .hidden-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 

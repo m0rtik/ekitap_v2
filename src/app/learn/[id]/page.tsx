@@ -275,7 +275,7 @@ export default function Learn() {
                         <div className="overflow-hidden">
                           {item.chapters.map((chapter, idx) => (
                             <li key={idx}>
-                              <Link href="/lesson" className="flex items-baseline space-x-4 p-4 bg-white border-t border-zinc-200 transition hover:bg-zinc-50">
+                              <Link href="/customlesson" className="flex items-baseline space-x-4 p-4 bg-white border-t border-zinc-200 transition hover:bg-zinc-50">
                                 <i className={`text-lg text-zinc-500 ${chapter.icon}`}></i>
                                 <span className="text-sm">{chapter.text}</span>
                               </Link>

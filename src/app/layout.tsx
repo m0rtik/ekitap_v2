@@ -15,6 +15,7 @@ import Footer from "@/components/footer";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isLessonPage = pathname.startsWith("/lesson"); // Проверяем, это ли страница уроков
+  const isCustomLessonPage = pathname.startsWith("/customlesson"); // Проверяем, это ли страница уроков
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -44,10 +45,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </Head>
       <body className={`${isMenuOpen && "overflow-hidden"}`}>
         <div className="wrapper">
-          {!isLessonPage && <Header toggleMenu={toggleMenu} />}
+          {!isLessonPage && !isCustomLessonPage && <Header toggleMenu={toggleMenu} />}
 
           <main className={`flex-1 ${isLessonPage ? "min-h-screen bg-gray-50" : ""}`}>
-            {!isLessonPage && (
+            {!isLessonPage && !isCustomLessonPage && (
               <div ref={menuRef}>
                 <Subheader toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
               </div>
@@ -55,9 +56,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {children}
           </main>
 
-          {!isLessonPage && <Footer />}
+          {!isLessonPage && !isCustomLessonPage && <Footer />}
 
-          {!isLessonPage && <div className={`hidden max-lg:block fixed inset-0 bg-black/50 transition duration-500 ${!isMenuOpen && "invisible opacity-0"}`}></div>}
+          {!isLessonPage && !isCustomLessonPage && <div className={`hidden max-lg:block fixed inset-0 bg-black/50 transition duration-500 ${!isMenuOpen && "invisible opacity-0"}`}></div>}
         </div>
       </body>
     </html>
