@@ -56,23 +56,27 @@ const statusClasses: Record<LessonStatus, string> = {
 };
 
 export default function Lesson() {
+  
   //ContentMenu
   const [isPinned, setIsPinned] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Загружаем сохранённое состояние только в браузере
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedPinned = localStorage.getItem("isPinned") === "true";
-      const savedOpen = localStorage.getItem("isOpen") === "true";
+  if (typeof window !== "undefined") {
+    const savedPinned = localStorage.getItem("isPinned");
+    const savedOpen = localStorage.getItem("isOpen");
 
-      setIsPinned(savedPinned);
-      setIsOpen(savedPinned ? savedOpen : false);
-    }
-  }, []);
+    const isPinnedValue = savedPinned !== null ? savedPinned === "true" : true;
+    const isOpenValue = savedOpen !== null ? savedOpen === "true" : true;
 
-  // Сохраняем изменения в localStorage
+    setIsPinned(isPinnedValue);
+    setIsOpen(isPinnedValue ? isOpenValue : false);
+  }
+}, []);
+
+
+    // Сохраняем изменения в localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("isPinned", String(isPinned));
@@ -115,34 +119,26 @@ export default function Lesson() {
     {
       icon: !isOpen ? "ri-gallery-view-2" : "ri-layout-grid-fill",
       label: "Содержание",
-      onClick: toggleSidebar,
-      onMouseEnter: handleMouseEnter,
-      onMouseLeave: handleMouseLeave,
     },
     {
       icon: "ri-question-answer-line",
       label: "Чат с учениками",
-      onClick: () => console.log("Чат с учениками"),
     },
     {
       icon: "ri-attachment-2",
       label: "Материалы",
-      onClick: () => console.log("Материалы"),
     },
     {
       icon: "ri-translate",
       label: "Личный словарь",
-      onClick: toggleSidebar, // Привязали toggleSidebar
     },
     {
       icon: "ri-text-block",
       label: "Интерактивная доска",
-      onClick: () => console.log("Интерактивная доска"),
     },
     {
       icon: "ri-settings-2-line",
       label: "Настройки урока",
-      onClick: () => console.log("Настройки урока"),
     },
   ];
 
@@ -231,7 +227,7 @@ export default function Lesson() {
                       <Link href="/learn" className="size-7 rounded-md flex items-center justify-center bg-zinc-100 transition hover:bg-zinc-200">
                         <i className="text-lg ri-arrow-left-s-line"></i>
                       </Link>
-                      <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md left-1/2 -translate-x-1/2 mt-3 before:size-2.25 before:bg-zinc-800 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-1.25 before:rotate-45 before:rounded-tl-xs">
+                      <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md left-1/2 -translate-x-1/2 mt-3 before:size-2.25 before:bg-zinc-800 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-[4.5px] before:rotate-45 before:rounded-tl-xs">
                         <span className="text-sm font-medium">Моё обучение</span>
                       </span>
                     </span>
@@ -241,7 +237,7 @@ export default function Lesson() {
                       <span className="h-7 px-2 rounded-md flex items-center justify-center bg-zinc-100 transition hover:bg-zinc-200">
                         <span className="max-w-[190px] truncate text-sm">Основы программирования</span>
                       </span>
-                      <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md left-1/2 -translate-x-1/2 mt-3 before:size-2.25 before:bg-zinc-800 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-1.25 before:rotate-45 before:rounded-tl-xs">
+                      <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md left-1/2 -translate-x-1/2 mt-3 before:size-2.25 before:bg-zinc-800 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-[4.5px] before:rotate-45 before:rounded-tl-xs">
                         <span className="text-sm font-medium">Основы программирования</span>
                       </span>
                     </span>
@@ -251,7 +247,7 @@ export default function Lesson() {
                       <span className="h-7 px-2 rounded-md flex items-center justify-center">
                         <span className="max-w-[190px] truncate text-sm">Что такое программирование?</span>
                       </span>
-                      <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md left-1/2 -translate-x-1/2 mt-3 before:size-2.25 before:bg-zinc-800 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-1.25 before:rotate-45 before:rounded-tl-xs">
+                      <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md left-1/2 -translate-x-1/2 mt-3 before:size-2.25 before:bg-zinc-800 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-[4.5px] before:rotate-45 before:rounded-tl-xs">
                         <span className="text-sm font-medium">Что такое программирование?</span>
                       </span>
                     </span>
@@ -275,7 +271,7 @@ export default function Lesson() {
                         <div className="absolute -top-1 -right-1.5 uppercase text-xs text-white bg-blue-400 px-1 pt-1 pb-0.5 rounded-md rounded-bl-none leading-none">RU</div>
                       </button>
                       {isOpen && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-1.25 before:size-2.5 before:rounded-tl-xs before:rotate-45 before:bg-white before:border-t before:border-l before:border-zinc-200">
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-[5.5px] before:size-2.5 before:rounded-tl-sm before:rounded-br-2xl before:rotate-45 before:bg-white before:border-t before:border-l before:border-zinc-200">
                           <ul>
                             {languages.map(({ code, label }) => (
                               <li key={code}>
@@ -309,7 +305,7 @@ export default function Lesson() {
                         </div>
                       </button>
                       {isOpen && (
-                        <div className="absolute top-full right-0 min-w-48 mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50 before:absolute before:right-4 before:-top-1.25 before:size-2.5 before:rounded-tl-xs before:rotate-45 before:bg-white before:border-t before:border-l before:border-zinc-200">
+                        <div className="absolute top-full right-0 min-w-48 mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50 before:absolute before:right-4 before:-top-[5.5px] before:size-2.5 before:rounded-tl-sm before:rounded-br-2xl before:rotate-45 before:bg-white before:border-t before:border-l before:border-zinc-200">
                           <ul>
                             <li>
                               <Link href="#" className="flex items-center space-x-2 pl-3 pr-5 py-2.5 whitespace-nowrap leading-0 rounded-md transition hover:bg-blue-50">
@@ -358,15 +354,12 @@ export default function Lesson() {
             <div className="flex flex-col items-center h-full">
               <div className="flex flex-col items-center space-y-4 py-3.5 w-full">
                 {visibleAsideItems.map((item, index) => {
-                  // Фильтруем только обработчики событий (onClick, onMouseEnter и т. д.)
-                  const eventHandlers = Object.fromEntries(Object.entries(item).filter(([key]) => key.startsWith("on")));
-
                   return (
-                    <button key={index} type="button" className="relative cursor-pointer group flex items-center justify-center w-full" {...eventHandlers}>
+                    <button key={index} type="button" className="relative cursor-pointer group flex items-center justify-center w-full" onClick={toggleSidebar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                       <div className="size-9 flex items-center justify-center rounded-md transition hover:bg-zinc-100">
-                        <i className={`text-lg ${item.icon}`}></i>
+                        <i className={`text-lg ${index === 0 ? (isOpen ? "ri-layout-grid-fill" : "ri-gallery-view-2") : item.icon}`}></i>
                       </div>
-                      <div className="absolute left-full top-1/2 ml-2 -translate-y-1/2 opacity-0 invisible transition-opacity group-hover:visible group-hover:opacity-100 w-max max-w-xs px-4 py-2.5 rounded-md bg-zinc-800 text-zinc-50 before:absolute before:size-2.5 before:bg-zinc-800 before:top-1/2 before:-translate-y-1/2 before:-left-1.5 before:-rotate-45 before:rounded-tl-sm">
+                      <div className="absolute left-full top-1/2 ml-2 -translate-y-1/2 opacity-0 invisible transition-opacity group-hover:visible group-hover:opacity-100 w-max max-w-xs px-4 py-2.5 rounded-md bg-zinc-800 text-zinc-50 before:absolute before:size-2.5 before:bg-zinc-800 before:top-1/2 before:-translate-y-1/2 before:-left-[5px] before:-rotate-45 before:rounded-tl-xs">
                         <span className="text-sm font-medium">{item.label}</span>
                       </div>
                     </button>
@@ -404,7 +397,7 @@ export default function Lesson() {
                   <div className="size-9 flex items-center justify-center rounded-md transition hover:bg-zinc-100">
                     <i className="text-lg ri-arrow-up-line"></i>
                   </div>
-                  <div className="absolute left-full top-1/2 ml-2 -translate-y-1/2 opacity-0 invisible transition-opacity group-hover:visible group-hover:opacity-100 w-max max-w-xs px-4 py-2.5 rounded-md bg-zinc-800 text-zinc-50 before:absolute before:size-2.5 before:bg-zinc-800 before:top-1/2 before:-translate-y-1/2 before:-left-1.5 before:-rotate-45 before:rounded-tl-sm">
+                  <div className="absolute left-full top-1/2 ml-2 -translate-y-1/2 opacity-0 invisible transition-opacity group-hover:visible group-hover:opacity-100 w-max max-w-xs px-4 py-2.5 rounded-md bg-zinc-800 text-zinc-50 before:absolute before:size-2.5 before:bg-zinc-800 before:top-1/2 before:-translate-y-1/2 before:-left-[5px] before:-rotate-45 before:rounded-tl-xs">
                     <span className="text-sm font-medium">Вверх</span>
                   </div>
                 </button>
@@ -412,7 +405,7 @@ export default function Lesson() {
                   <div className="size-9 flex items-center justify-center rounded-md transition hover:bg-zinc-100">
                     <i className="text-lg ri-arrow-down-line"></i>
                   </div>
-                  <div className="absolute left-full top-1/2 ml-2 -translate-y-1/2 opacity-0 invisible transition-opacity group-hover:visible group-hover:opacity-100 w-max max-w-xs px-4 py-2.5 rounded-md bg-zinc-800 text-zinc-50 before:absolute before:size-2.5 before:bg-zinc-800 before:top-1/2 before:-translate-y-1/2 before:-left-1.5 before:-rotate-45 before:rounded-tl-sm">
+                  <div className="absolute left-full top-1/2 ml-2 -translate-y-1/2 opacity-0 invisible transition-opacity group-hover:visible group-hover:opacity-100 w-max max-w-xs px-4 py-2.5 rounded-md bg-zinc-800 text-zinc-50 before:absolute before:size-2.5 before:bg-zinc-800 before:top-1/2 before:-translate-y-1/2 before:-left-[5px] before:-rotate-45 before:rounded-tl-xs">
                     <span className="text-sm font-medium">Вниз</span>
                   </div>
                 </button>
@@ -423,11 +416,13 @@ export default function Lesson() {
           <footer ref={footerRef} className="h-16 fixed bottom-0 inset-x-0 shrink-0 bg-white border-t border-zinc-200 z-40 hidden max-md:block">
             <div className="flex items-center size-full">
               <div className="flex items-center space-x-2 px-3.5">
-                {visibleFooterItems.map((item, index) => (
-                  <button key={index} type="button" className="size-9 flex items-center justify-center rounded-md transition hover:bg-zinc-100">
-                    <i className={`text-lg ${item.icon}`}></i>
-                  </button>
-                ))}
+                {visibleFooterItems.map((item, index) => {
+                  return (
+                    <button key={index} type="button" className="size-9 flex items-center justify-center rounded-md transition hover:bg-zinc-100" onClick={toggleSidebar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                      <i className={`text-lg ${index === 0 ? (isOpen ? "ri-layout-grid-fill" : "ri-gallery-view-2") : item.icon}`}></i>
+                    </button>
+                  );
+                })}
 
                 {isFooterSubmenuVisible && submenuFooterItems.length > 0 && (
                   <Dropdown
@@ -466,15 +461,22 @@ export default function Lesson() {
             </div>
           </footer>
 
-          <div className="h-full w-80 shrink-0 border-r border-zinc-200 bg-zinc-50 flex flex-col sticky top-0">
+          <div className={`shrink-0 bg-zinc-50 flex flex-col transition-[width] overflow-hidden ${isPinned ? `sticky top-0 h-full ${isOpen ? "w-80 border-r border-zinc-200" : "w-0"}` : `fixed left-16 top-16 h-[calc(100%_-_4rem)] ${isOpen ? "w-80 border-r border-zinc-200 z-30" : "w-0"}`}`}
+          onMouseEnter={() => {
+              if (!isPinned) {
+                if (timeoutRef.current) clearTimeout(timeoutRef.current); // Отменяем скрытие
+                setIsOpen(true);
+              }
+            }}
+            onMouseLeave={handleMouseLeave}>
             <div className="h-16 shrink-0 border-b border-zinc-200 flex items-center">
               <div className="flex items-center justify-between w-full px-4">
                 <div className="font-semibold truncate">Содержание курса</div>
                 <span className="group relative">
-                  <button type="button" onClick={() => setIsPinned((prev) => !prev)} className="cursor-pointer size-8 rounded-md flex items-center justify-center justify-self-center transition hover:bg-zinc-200">
+                  <button type="button" onClick={() => {setIsPinned((prev) => !prev); console.log(isPinned)}} className="cursor-pointer size-8 rounded-md flex items-center justify-center justify-self-center transition hover:bg-zinc-200">
                     <i className={`ri-pushpin-2-fill transition ${!isPinned && "rotate-45"}`}></i>
                   </button>
-                  <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md right-full mr-3 top-1/2 -translate-y-1/2 before:size-2.5 before:bg-zinc-800 before:absolute before:top-1/2 before:-translate-y-1/2 before:-right-1.25 before:rotate-135 before:rounded-tl-sm">
+                  <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md top-full mt-3 -right-2 before:size-2.5 before:bg-zinc-800 before:absolute before:-top-[5px] before:right-4.5 before:rotate-45 before:rounded-tl-xs">
                     <span className="text-sm font-medium">{isPinned ? "Открепить" : "Закрепить"}</span>
                   </span>
                 </span>
@@ -513,7 +515,7 @@ export default function Lesson() {
             </ul>
           </div>
 
-          <div className="h-full w-full bg-amber-200 overflow-auto">
+          <div className="h-full w-full bg-amber-200 overflow-auto transition-[width]">
             <div className="container">
               <div className="prose mx-auto prose-zinc max-w-4xl">
                 <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
