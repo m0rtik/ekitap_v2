@@ -309,32 +309,32 @@ export default function Lesson() {
                           <ul>
                             <li>
                               <Link href="#" className="flex items-center space-x-2 pl-3 pr-5 py-2.5 whitespace-nowrap leading-0 rounded-md transition hover:bg-blue-50">
-                                <i className="text-lg leading-none text-zinc-400 ri-equalizer-2-line"></i>
+                                <i className="text-lg leading-none text-zinc-500 ri-equalizer-2-line"></i>
                                 <span>Панель управления</span>
                               </Link>
                             </li>
                             <li>
                               <Link href="#" className="flex items-center space-x-2 pl-3 pr-5 py-2.5 whitespace-nowrap leading-0 rounded-md transition hover:bg-blue-50">
-                                <i className="text-lg leading-none text-zinc-400 ri-bookmark-line"></i>
+                                <i className="text-lg leading-none text-zinc-500 ri-bookmark-line"></i>
                                 <span>Мои курсы</span>
                               </Link>
                             </li>
                             <li>
                               <Link href="#" className="flex items-center space-x-2 pl-3 pr-5 py-2.5 whitespace-nowrap leading-0 rounded-md transition hover:bg-blue-50">
-                                <i className="text-lg leading-none text-zinc-400 ri-wallet-line"></i>
+                                <i className="text-lg leading-none text-zinc-500 ri-wallet-line"></i>
                                 <span>Пополнить кошелёк</span>
                               </Link>
                             </li>
                             <li>
                               <Link href="#" className="flex items-center space-x-2 pl-3 pr-5 py-2.5 whitespace-nowrap leading-0 rounded-md transition hover:bg-blue-50">
-                                <i className="text-lg leading-none text-zinc-400 ri-settings-3-line"></i>
+                                <i className="text-lg leading-none text-zinc-500 ri-settings-3-line"></i>
                                 <span>Настройки</span>
                               </Link>
                             </li>
                             <li className="h-px w-full bg-zinc-200 my-0.5"></li>
                             <li>
                               <Link href="#" className="flex items-center space-x-2 pl-3 pr-5 py-2.5 whitespace-nowrap leading-0 rounded-md transition text-red-500 hover:bg-blue-50">
-                                <i className="text-lg leading-none text-zinc-400 ri-login-box-line"></i>
+                                <i className="text-lg leading-none text-zinc-500 ri-login-box-line"></i>
                                 <span>Выход</span>
                               </Link>
                             </li>
@@ -349,7 +349,7 @@ export default function Lesson() {
           </div>
         </header>
 
-        <div className="flex-1 flex ml-16 max-md:ml-0 mt-16 overflow-hidden">
+        <div className="flex-1 flex ml-16 max-md:ml-0 mt-16 overflow-hidden  max-md:mb-14">
           <aside ref={asideRef} className="w-16 shrink-0 bg-white border-r border-zinc-200 z-40 fixed top-16 bottom-0 left-0 max-md:hidden">
             <div className="flex flex-col items-center h-full">
               <div className="flex flex-col items-center space-y-4 py-3.5 w-full">
@@ -413,7 +413,7 @@ export default function Lesson() {
             </div>
           </aside>
 
-          <footer ref={footerRef} className="h-16 fixed bottom-0 inset-x-0 shrink-0 bg-white border-t border-zinc-200 z-40 hidden max-md:block">
+          <footer ref={footerRef} className="h-14 fixed bottom-0 inset-x-0 shrink-0 bg-white border-t border-zinc-200 z-40 hidden max-md:block">
             <div className="flex items-center size-full">
               <div className="flex items-center space-x-2 px-3.5">
                 {visibleFooterItems.map((item, index) => {
@@ -452,16 +452,16 @@ export default function Lesson() {
 
               <div className="flex items-center space-x-2 mr-3.5 ml-auto">
                 <button type="button" className="size-9 flex items-center justify-center rounded-md transition hover:bg-zinc-100">
-                  <i className="text-lg ri-arrow-up-line"></i>
+                  <i className="text-lg ri-arrow-down-line"></i>
                 </button>
                 <button type="button" className="size-9 flex items-center justify-center rounded-md transition hover:bg-zinc-100">
-                  <i className="text-lg ri-arrow-down-line"></i>
+                  <i className="text-lg ri-arrow-up-line"></i>
                 </button>
               </div>
             </div>
           </footer>
 
-          <div className={`shrink-0 bg-zinc-50 flex flex-col transition-[width] overflow-hidden ${isPinned ? `sticky top-0 h-full ${isOpen ? "w-80 border-r border-zinc-200" : "w-0"}` : `fixed left-16 top-16 h-[calc(100%_-_4rem)] ${isOpen ? "w-80 border-r border-zinc-200 z-30" : "w-0"}`}`}
+          <div className={`shrink-0 bg-zinc-50 flex flex-col transition-[width] overflow-hidden ${isPinned ? `sticky top-0 h-full ${isOpen ? "w-80 border-r border-zinc-200" : "w-0"}` : `fixed left-16 max-md:left-0 top-16 h-[calc(100%_-_4rem)] ${isOpen ? "w-80 border-r border-zinc-200 z-30" : "w-0"}`}`}
           onMouseEnter={() => {
               if (!isPinned) {
                 if (timeoutRef.current) clearTimeout(timeoutRef.current); // Отменяем скрытие
@@ -490,7 +490,7 @@ export default function Lesson() {
               </div>
             </div>
 
-            <ul className="overflow-auto small-scrollbar h-full">
+            <ul className="overflow-auto small-scrollbar h-full max-md:mb-14">
               {courseContent.map((section, index) => (
                 <li key={index}>
                   <div className="px-4 text-sm border-y border-zinc-200 font-medium h-12 flex items-center hover:bg-zinc-100">
@@ -515,9 +515,37 @@ export default function Lesson() {
             </ul>
           </div>
 
-          <div className="h-full w-full bg-amber-200 overflow-auto transition-[width]">
+          <div className="h-full w-full overflow-auto transition-[width] relative">
+            <div className={`h-16 flex items-center shrink-0 bg-zinc-50 border-b border-zinc-200 sticky top-0 left-0 right-2 transition`}>
+              <div className="container">
+                <div className="flex items-center">
+                  <span className="group relative mr-10">
+                    <Link href="#prev" className="size-10 rounded-md flex items-center justify-center bg-zinc-50 border border-zinc-200 transition hover:bg-white hover:text-blue-500">
+                      <i className="text-xl ri-arrow-left-s-line"></i>
+                    </Link>
+                    <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md left-0 mt-2 before:size-2.25 before:bg-zinc-800 before:absolute before:left-4 before:-top-1 before:rotate-45 before:rounded-tl-xs">
+                      <span className="text-sm font-medium">Что такое программирование?</span>
+                    </span>
+                  </span>
+
+                  <h1 className="font-medium mr-10 whitespace-nowrap truncate">1.2 Алгоритмы и их виды</h1>
+
+                  <span className="group relative ml-auto">
+                    <Link href="#next" className="flex items-center space-x-4 max-md:space-x-0 transition hover:text-blue-500 group">
+                      <span className="text-sm font-medium whitespace-nowrap max-md:hidden">Следующйи урок</span>
+                      <span className="size-10 rounded-md flex items-center justify-center bg-zinc-50 border border-zinc-200 group-hover:bg-white">
+                        <i className="text-xl ri-arrow-right-s-line"></i>
+                      </span>
+                    </Link>
+                    <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md right-0 mt-2 before:size-2.25 before:bg-zinc-800 before:absolute before:right-4 before:-top-1 before:rotate-45 before:rounded-tl-xs">
+                      <span className="text-sm font-medium">Среды разработки</span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
             <div className="container">
-              <div className="prose mx-auto prose-zinc max-w-4xl">
+              <div className="prose mx-auto prose-zinc max-w-4xl max-sm:prose-sm">
                 <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
               </div>
             </div>
