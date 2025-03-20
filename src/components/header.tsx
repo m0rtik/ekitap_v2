@@ -74,7 +74,7 @@ export default function Header({ toggleMenu }: HeaderProps) {
                         <div className="absolute -top-1 -right-1.5 uppercase text-xs text-white bg-blue-400 px-1 pt-1 pb-0.5 rounded-md rounded-bl-none leading-none">RU</div>
                       </button>
                       {isOpen && (
-                        <div className="dropdown-menu dropdown-center absolute top-full mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50">
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50 before:absolute before:left-1/2 before:-translate-x-1/2 before:-top-1.25 before:size-2.5 before:rounded-tl-xs before:rotate-45 before:bg-white before:border-t before:border-l before:border-zinc-200">
                           <ul>
                             {languages.map(({ code, label }) => (
                               <li key={code}>
@@ -109,7 +109,7 @@ export default function Header({ toggleMenu }: HeaderProps) {
                       </div>
                     </button>
                     {isOpen && (
-                      <div className="dropdown-menu dropdown-right absolute top-full min-w-48 mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50">
+                      <div className="absolute top-full right-0 min-w-48 mt-2 bg-white border border-zinc-200 p-1 rounded-md text-sm z-50 before:absolute before:right-4 before:-top-1.25 before:size-2.5 before:rounded-tl-xs before:rotate-45 before:bg-white before:border-t before:border-l before:border-zinc-200">
                         <ul>
                           <li>
                             <Link href="#" className="flex items-center space-x-2 pl-3 pr-5 py-2.5 whitespace-nowrap leading-0 rounded-md transition hover:bg-blue-50">
