@@ -247,6 +247,27 @@ export default function Lesson() {
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
   // SUBHEADER
+
+  // TEXTAREA AI
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "43px"; // Сброс высоты перед пересчётом
+      textarea.style.height = `${textarea.scrollHeight}px`; // Устанавливаем новую высоту
+    }
+  };
+
+  useEffect(() => {
+    adjustHeight(); // Подстройка при первом рендере
+  }, []);
+  // TEXTAREA AI
+
+  // CHAT AI
+  const [isOpenAI, setIsOpenAI] = useState(false);
+  const [isShown, setIsShown] = useState(false);
+  // CHAT AI
   return (
     <>
       <div className="size-full bg-white flex flex-col">
@@ -596,6 +617,126 @@ export default function Lesson() {
             <div className="container">
               <div className="prose mx-auto prose-zinc max-w-4xl max-sm:prose-sm">
                 <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="fixed right-6 bottom-6 z-50">
+        <div className="relative group z-10">
+          <button type="button" onClick={() => setIsOpenAI(!isOpenAI)} className="cursor-pointer size-10 flex items-center justify-center shrink-0 rounded-full text-zinc-50 bg-zinc-950 relative after:absolute after:inset-0 after:transition after:scale-105 hover:after:scale-110 after:bg-amber-300 after:rounded-full after:bg-conic/decreasing after:from-violet-700 after:via-yellow-300 after:to-violet-700 after:-z-1 after:animate-[spin_3s_ease-in-out_infinite]">
+            <i className="ri-chat-ai-fill"></i>
+          </button>
+          <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md right-0 bottom-full mb-2.5 before:size-2.25 before:bg-zinc-800 before:absolute before:right-4 before:-bottom-1 before:rotate-225 before:rounded-tl-xs">
+            <span className="text-sm font-medium">{!isOpenAI ? "Спросить у АйТичер" : "Закрыть"}</span>
+          </span>
+        </div>
+
+        <div className={`absolute right-0 mb-2.5 bottom-full bg-white shadow-xl border border-zinc-200 rounded-xl w-108 overflow-hidden ${isOpenAI ? "visible opacity-100" : "invisible opacity-0"}`}>
+          <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-indigo-200 to-transparent">
+            <div className="absolute inset-y-0 w-1/2 bg-linear-150 from-sky-200 from-5% to-transparent to-50%"></div>
+            <div className="absolute size-20 bg-pink-200 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rounded-full blur-xl"></div>
+          </div>
+
+          <div className="relative z-1">
+            <div className="flex items-center justify-between p-4">
+              <button type="button" onClick={() => setIsShown(!isShown)} className="cursor-pointer size-8 flex items-center justify-center rounded-md transition bg-white shadow border border-zinc-200 hover:text-blue-600 hover:bg-zinc-50 active:bg-zinc-100 focus:border-zinc-300">
+                <i className="ri-menu-line"></i>
+              </button>
+              <button type="button" onClick={() => setIsOpenAI(!isOpenAI)} className="cursor-pointer size-8 flex items-center justify-center rounded-md transition bg-white shadow border border-zinc-200 hover:text-blue-600 hover:bg-zinc-50 active:bg-zinc-100 focus:border-zinc-300">
+                <i className="ri-close-line"></i>
+              </button>
+            </div>
+
+            <div className="flex flex-col items-center p-4">
+              <div className="mb-2.5 size-12 bg-white rounded-xl shadow border border-zinc-200 flex items-center justify-center">
+                <i className="text-2xl text-indigo-500 ri-robot-2-fill"></i>
+              </div>
+              <div className="mb-1 font-medium text-center">Привет! Я LogiQ, твой помощник в обучении!</div>
+              <div className="text-sm text-zinc-500 text-center">Помогу разобраться с учебником. Задавайте вопросы!</div>
+            </div>
+
+            <div className="p-4">
+              <div className="space-y-4">
+                <a href="#" className="block border border-zinc-200 bg-white rounded-md p-2.5 text-sm transition hover:shadow">
+                  <div className="font-medium">Коротко о главном</div>
+                  <div className="text-zinc-500">LogiQ передаст суть в нескольких предложениях.</div>
+                </a>
+                <a href="#" className="block border border-zinc-200 bg-white rounded-md p-2.5 text-sm transition hover:shadow">
+                  <div className="font-medium">Можешь объяснить этот материал проще?</div>
+                  <div className="text-zinc-500">Если что-то кажется сложным, LogiQ может переформулировать.</div>
+                </a>
+                <a href="#" className="block border border-zinc-200 bg-white rounded-md p-2.5 text-sm transition hover:shadow">
+                  <div className="font-medium">Как это применить на практике?</div>
+                  <div className="text-zinc-500">Чтобы понять, как использовать знания в реальной жизни.</div>
+                </a>
+              </div>
+            </div>
+
+            <div className="p-4 border-t border-zinc-200">
+              <div className="flex items-end space-x-4">
+                <textarea ref={textareaRef} onInput={adjustHeight} className="w-full bg-zinc-50 border-2 border-zinc-200 outline-none resize-none rounded-md text-sm p-2 h-10 max-h-32 hidden-scrollbar" placeholder="Задай мне свой вопрос здесь..."></textarea>
+                <button type="button" className="cursor-pointer size-10 flex items-center justify-center shrink-0 rounded-lg border-2 border-indigo-700 shadow bg-indigo-600 text-white transition hover:brightness-125">
+                  <i className="ri-send-plane-2-fill"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className={`absolute inset-0 group ${isShown ? "show" : "pointer-events-none"} z-10`}>
+            <div onClick={() => setIsShown(!isShown)} className="absolute inset-0 bg-black/75 invisible opacity-0 transition group-[.show]:visible group-[.show]:opacity-100"></div>
+            <div className="absolute inset-y-2 w-80 px-2 overflow-hidden transition -translate-x-full group-[.show]:translate-x-0">
+              <div className="bg-white rounded-lg size-full">
+                <div className="p-4 flex items-center justify-between">
+                  <div className="font-semibold">Недавнии запросы</div>
+                  <button type="button" onClick={() => setIsShown(!isShown)} className="cursor-pointer size-7 rounded-md flex items-center justify-center bg-zinc-100 transition hover:bg-zinc-200">
+                    <i className="text-lg ri-expand-left-line"></i>
+                  </button>
+                </div>
+
+                <ul className="text-sm space-y-6 pt-4 overflow-y-auto overflow-x-hidden">
+                  <li>
+                    <div className="px-4 text-zinc-500">Сегодня</div>
+                    <ul>
+                      <li>
+                        <a href="#" className="block w-full mx-1.5 pl-2.5 pr-8 py-2 rounded-lg transition hover:bg-zinc-100 truncate">
+                          Что самое главное в этой теме?
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" className="block w-full mx-1.5 pl-2.5 pr-8 py-2 rounded-lg transition hover:bg-zinc-100 truncate">
+                          Объясни это проще, как будто мне 10 лет.
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" className="block w-full mx-1.5 pl-2.5 pr-8 py-2 rounded-lg transition hover:bg-zinc-100 truncate">
+                          В чём самая распространённая ошибка при изучении этого материала?
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <div className="px-4 text-zinc-500">Вчера</div>
+                    <ul>
+                      <li>
+                        <a href="#" className="block w-full mx-1.5 pl-2.5 pr-8 py-2 rounded-lg transition hover:bg-zinc-100 truncate">
+                          Как это знание можно применить в реальной жизни?
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" className="block w-full mx-1.5 pl-2.5 pr-8 py-2 rounded-lg transition hover:bg-zinc-100 truncate">
+                          Есть ли примеры из истории, где это было важно?
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" className="block w-full mx-1.5 pl-2.5 pr-8 py-2 rounded-lg transition hover:bg-zinc-100 truncate">
+                          Какие профессии используют этот навык?
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
