@@ -56,27 +56,41 @@ const statusClasses: Record<LessonStatus, string> = {
 };
 
 export default function Lesson() {
-  
   //ContentMenu
   const [isPinned, setIsPinned] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-  if (typeof window !== "undefined") {
-    const savedPinned = localStorage.getItem("isPinned");
-    const savedOpen = localStorage.getItem("isOpen");
+    if (typeof window !== "undefined") {
+      const savedPinned = localStorage.getItem("isPinned");
+      const savedOpen = localStorage.getItem("isOpen");
 
-    const isPinnedValue = savedPinned !== null ? savedPinned === "true" : true;
-    const isOpenValue = savedOpen !== null ? savedOpen === "true" : true;
+      const isPinnedValue = savedPinned !== null ? savedPinned === "true" : true;
+      const isOpenValue = savedOpen !== null ? savedOpen === "true" : true;
 
-    setIsPinned(isPinnedValue);
-    setIsOpen(isPinnedValue ? isOpenValue : false);
-  }
-}, []);
+      setIsPinned(isPinnedValue);
+      setIsOpen(isPinnedValue ? isOpenValue : false);
+    }
+  }, []);
 
+  // Отслеживание ширины экрана и изменение isPinned + способа открытия
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 1024px)");
+    const update = () => {
+      const mobile = media.matches;
+      setIsMobile(mobile);
+      setIsPinned(!mobile);
+      setIsOpen(!mobile); // Закрываем меню на мобилке
+    };
 
-    // Сохраняем изменения в localStorage
+    update(); // Устанавливаем начальное значение
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  // Сохраняем изменения в localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("isPinned", String(isPinned));
@@ -86,21 +100,21 @@ export default function Lesson() {
     }
   }, [isPinned, isOpen]);
 
+  // Открытие/закрытие меню
   const toggleSidebar = () => {
-    if (isPinned) {
-      setIsOpen((prev) => !prev);
-    }
+    setIsOpen((prev) => !prev);
   };
 
+  // Только для десктопа: открытие по наведению
   const handleMouseEnter = () => {
-    if (!isPinned) {
+    if (!isMobile && !isPinned) {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       setIsOpen(true);
     }
   };
 
   const handleMouseLeave = () => {
-    if (!isPinned) {
+    if (!isMobile && !isPinned) {
       timeoutRef.current = setTimeout(() => {
         setIsOpen(false);
       }, 300);
@@ -207,6 +221,32 @@ export default function Lesson() {
   }, [checkAsideOverflow, checkFooterOverflow]);
   // ASIDE
 
+  // SUBHEADER
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down" | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let lastScrollTop = container.scrollTop;
+
+    const handleScroll = () => {
+      const currentScrollTop = container.scrollTop;
+
+      if (currentScrollTop > lastScrollTop) {
+        setScrollDirection("down");
+      } else if (currentScrollTop < lastScrollTop) {
+        setScrollDirection("up");
+      }
+
+      lastScrollTop = currentScrollTop;
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, []);
+  // SUBHEADER
   return (
     <>
       <div className="size-full bg-white flex flex-col">
@@ -461,19 +501,28 @@ export default function Lesson() {
             </div>
           </footer>
 
-          <div className={`shrink-0 bg-zinc-50 flex flex-col transition-[width] overflow-hidden ${isPinned ? `sticky top-0 h-full ${isOpen ? "w-80 border-r border-zinc-200" : "w-0"}` : `fixed left-16 max-md:left-0 top-16 h-[calc(100%_-_4rem)] ${isOpen ? "w-80 border-r border-zinc-200 z-30" : "w-0"}`}`}
-          onMouseEnter={() => {
+          <div
+            className={`shrink-0 bg-zinc-50 flex flex-col transition-[width] overflow-hidden ${isPinned ? `sticky top-0 h-full ${isOpen ? "w-80 border-r border-zinc-200" : "w-0"}` : `fixed left-16 max-md:left-0 top-16 h-[calc(100%_-_4rem)] ${isOpen ? "w-80 border-r border-zinc-200 z-30" : "w-0"}`}`}
+            onMouseEnter={() => {
               if (!isPinned) {
                 if (timeoutRef.current) clearTimeout(timeoutRef.current); // Отменяем скрытие
                 setIsOpen(true);
               }
             }}
-            onMouseLeave={handleMouseLeave}>
+            onMouseLeave={handleMouseLeave}
+          >
             <div className="h-16 shrink-0 border-b border-zinc-200 flex items-center">
               <div className="flex items-center justify-between w-full px-4">
                 <div className="font-semibold truncate">Содержание курса</div>
-                <span className="group relative">
-                  <button type="button" onClick={() => {setIsPinned((prev) => !prev); console.log(isPinned)}} className="cursor-pointer size-8 rounded-md flex items-center justify-center justify-self-center transition hover:bg-zinc-200">
+                <span className="group relative max-lg:hidden">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsPinned((prev) => !prev);
+                      console.log(isPinned);
+                    }}
+                    className="cursor-pointer size-8 rounded-md flex items-center justify-center justify-self-center transition hover:bg-zinc-200"
+                  >
                     <i className={`ri-pushpin-2-fill transition ${!isPinned && "rotate-45"}`}></i>
                   </button>
                   <span className="transition invisible opacity-0 group-hover:visible group-hover:opacity-100 w-max max-w-md absolute bg-zinc-800 text-zinc-50 px-4 py-2.5 rounded-md top-full mt-3 -right-2 before:size-2.5 before:bg-zinc-800 before:absolute before:-top-[5px] before:right-4.5 before:rotate-45 before:rounded-tl-xs">
@@ -515,8 +564,8 @@ export default function Lesson() {
             </ul>
           </div>
 
-          <div className="h-full w-full overflow-auto transition-[width] relative">
-            <div className={`h-16 flex items-center shrink-0 bg-zinc-50 border-b border-zinc-200 sticky top-0 left-0 right-2 transition`}>
+          <div ref={containerRef} className="h-full w-full overflow-auto transition-[width] relative">
+            <div className={`h-16 flex items-center shrink-0 bg-zinc-50 border-b border-zinc-200 sticky top-0 left-0 right-2 transition duration-300 ${scrollDirection === "down" ? "-translate-y-full" : "translate-y-0"}`}>
               <div className="container">
                 <div className="flex items-center">
                   <span className="group relative mr-10">
