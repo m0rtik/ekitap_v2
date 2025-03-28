@@ -628,6 +628,8 @@ export default function Lesson() {
       </div>
 
       <div className="fixed inset-0 pointer-events-none z-50">
+        <div onClick={() => setIsOpenAI(!isOpenAI)} className={`absolute inset-0 bg-black/25 transition ${isOpenAI ? "opacity-100 pointer-events-auto" : "opacity-0"}`}></div>
+
         <div className="fixed right-6 bottom-6 max-md:bottom-18 max-md:right-4 pointer-events-auto">
           <div className="relative group">
             <button type="button" onClick={() => setIsOpenAI(!isOpenAI)} className="cursor-pointer size-10 flex items-center justify-center shrink-0 rounded-full text-zinc-50 bg-zinc-950 relative after:absolute after:inset-0 after:transition after:scale-105 hover:after:scale-110 after:bg-amber-300 after:rounded-full after:bg-conic/decreasing after:from-violet-700 after:via-yellow-300 after:to-violet-700 after:-z-1 after:animate-[spin_3s_ease-in-out_infinite]">
@@ -641,8 +643,8 @@ export default function Lesson() {
           </div>
         </div>
 
-        <div className={`${!isFullSizeAI ? "border border-zinc-200 rounded-xl max-md:rounded-none right-6 max-md:inset-0 inset-y-18 max-w-108 max-md:max-w-full" : " inset-0"} absolute bg-white w-full overflow-hidden transition-opacity ${isOpenAI ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-          <div className={`absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-indigo-200 to-transparent ${getQuestion && "opacity-50"}`}>
+        <div className={`${!isFullSizeAI ? "rounded-xl max-md:rounded-none right-6 max-md:inset-0 inset-y-18 max-w-108 max-md:max-w-full" : " inset-0"} absolute bg-white w-full overflow-hidden transition-opacity ${isOpenAI ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+          <div className={`absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-indigo-200 to-transparent transition-opacity ${getQuestion ? "opacity-50" : "opacity-100"}`}>
             <div className="absolute inset-y-0 w-1/2 bg-linear-150 from-sky-200 from-5% to-transparent to-25%"></div>
             <div className="absolute size-20 bg-pink-200 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rounded-full blur-xl"></div>
           </div>
@@ -749,6 +751,12 @@ export default function Lesson() {
 
                     <p>Так работает программирование: мы даём компьютеру понятные шаги, чтобы он мог делать задачи за нас! 🚀</p>
                   </div>
+
+                  <div className="flex space-x-1 px-0.5">
+                    <span className="size-2 rounded-full bg-zinc-400 animate-[pulse_1s_infinite_ease-in-out]"></span>
+                    <span className="size-2 rounded-full bg-zinc-400 animate-[pulse_1s_infinite_ease-in-out] [animation-delay:0.2s]"></span>
+                    <span className="size-2 rounded-full bg-zinc-400 animate-[pulse_1s_infinite_ease-in-out] [animation-delay:0.4s]"></span>
+                  </div>
                 </div>
               </div>
             )}
@@ -770,7 +778,7 @@ export default function Lesson() {
               <div className="bg-white rounded-lg size-full py-2">
                 <div className="size-full overflow-y-auto overflow-x-hidden small-scrollbar">
                   <div className="bg-white px-4 py-2 flex items-center justify-between sticky top-0">
-                    <div className="font-semibold">Недавнии запросы</div>
+                    <div className="font-semibold">Недавние запросы</div>
                     <button type="button" onClick={() => setIsShown(!isShown)} className="cursor-pointer size-7 rounded-md flex items-center justify-center bg-zinc-100 transition hover:bg-zinc-200">
                       <i className="text-lg ri-expand-left-line"></i>
                     </button>
