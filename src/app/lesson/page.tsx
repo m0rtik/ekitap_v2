@@ -270,6 +270,27 @@ export default function Lesson() {
   const [isFullSizeAI, setIsFullSizeAI] = useState(false);
 
   const [getQuestion, setGetQuestion] = useState(false);
+
+  const [width, setWidth] = useState<number>(432); // Минимальная ширина 432px
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = width;
+
+    const onMouseMove = (event: MouseEvent) => {
+      const newWidth = startWidth - (event.clientX - startX);
+      setWidth(Math.max(432, Math.min(newWidth, window.innerWidth - 50))); // Минимум 432px
+    };
+
+    const onMouseUp = () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+  };
   // CHAT AI
 
   return (
@@ -643,7 +664,14 @@ export default function Lesson() {
           </div>
         </div>
 
-        <div className={`${!isFullSizeAI ? "rounded-xl max-md:rounded-none right-6 max-md:inset-0 inset-y-18 max-w-108 max-md:max-w-full" : " inset-0"} absolute bg-white w-full overflow-hidden transition-opacity ${isOpenAI ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+        <div
+          className={`absolute bg-white overflow-hidden transition-opacity ${isOpenAI ? "opacity-100" : "opacity-0 pointer-events-none"} ${!isFullSizeAI ? "rounded-xl max-md:rounded-none right-6 max-md:inset-0 inset-y-18" : "inset-0"}`}
+          style={{
+            width: isFullSizeAI ? "100%" : `${width}px`,
+          }}
+        >
+          <div className="absolute left-0 top-0 h-full w-2 cursor-ew-resize pointer-events-auto z-10" onMouseDown={handleMouseDown} />
+
           <div className={`absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-indigo-200 to-transparent transition-opacity ${getQuestion ? "opacity-50" : "opacity-100"}`}>
             <div className="absolute inset-y-0 w-1/2 bg-linear-150 from-sky-200 from-5% to-transparent to-25%"></div>
             <div className="absolute size-20 bg-pink-200 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rounded-full blur-xl"></div>
